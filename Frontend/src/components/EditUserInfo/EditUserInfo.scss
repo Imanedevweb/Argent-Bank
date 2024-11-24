@@ -1,0 +1,21 @@
+.form-EditUserInfo .form label,
+.form-EditUserInfo .input-edit,
+.form-EditUserInfo button {
+  margin: 10px;
+  border-radius: 5px;
+  flex-direction: row;
+};
+
+.edit-btn button{
+    border-color: #00bc77;
+    background-color: #00bc77;
+    color: #fff;
+    padding: 5px 15px;
+    border-radius: 1px;
+}
+
+.form-EditUserInfo{
+   width: 100%;
+   align-items: center;
+}
+
