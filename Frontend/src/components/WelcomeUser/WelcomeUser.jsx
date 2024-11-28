@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 
 
-function User() {
+function WelcomeUser() {
     const [editName, setEditName] = useState (false);
     const firstName = useSelector ((state) => state.user.profile.firstName);
     const lastName = useSelector ((state) =>state.user.profile.lastName);
@@ -26,4 +26,4 @@ function User() {
     )
 }
 
-export default User;
+export default WelcomeUser;

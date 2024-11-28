@@ -58,15 +58,21 @@ paths:
         '500':
           description: Internal Server Error
   /user/profile:
-    get:
+    post:
       security:
         - Bearer: []
       tags:
         - User Module
       summary: User Profile API
       description: API for fetching a user profile
-      #produces:
-       # - application/json
+      parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
+      produces:
+        - application/json
       responses:
         '200':
           description: User profile retrieved successully
@@ -84,6 +90,11 @@ paths:
       summary: User Profile API
       description: API for updating a user profile
       parameters:
+        - in: header
+          name: Authorization
+          type: string
+          description: Attach Bearer JWT token
+          required: true
         - in: body
           name: body
           description: Update user profile attributes
@@ -99,6 +110,111 @@ paths:
             $ref: '#/definitions/ApiResponse'
         '400':
           description: Invalid Fields
+        '500':
+          description: Internal Server Error
+  /transactions:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get all transactions
+      description: Retrieve all transactions for the authenticated user
+      parameters:
+        - in: query
+          name: accountId
+          type: string
+          description: Filter transactions by account ID
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Transaction'
+        '400':
+          description: Invalid Request
+        '500':
+          description: Internal Server Error
+    
+  /transactions/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get transaction by ID
+      description: Retrieve details of a specific transaction by its ID
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+          description: The ID of the transaction
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction retrieved successfully
+          schema:
+            $ref: '#/definitions/Transaction'
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Update transaction
+      description: Update an existing transaction by ID. Provide a JSON array with category and note.
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+          description: The ID of the transaction
+        - in: body
+          name: body
+          description: Updated transaction payload. (JSON array with category and note)
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionInput'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction updated successfully
+          schema:
+            $ref: '#/definitions/Transaction'
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal Server Error
+  /transactions/{transactionId}/month:    
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transaction Module
+      summary: Get transaction for the current month
+      description: Retrieve all transactions for the current month, with the month includes response.
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          type: string
+          description: The ID of the transaction
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transactions for the month retrieved successfully
+        '404':
+          description: Transaction not found
         '500':
           description: Internal Server Error
 securityDefinitions:
@@ -121,9 +237,6 @@ definitions:
       lastName:
         type: string
         description: user last name
-      userName:
-        type: string
-        description: user public name
   Login:
     properties:
       email:
@@ -154,5 +267,59 @@ definitions:
   UserProfile:
     type: object
     properties:
-      userName:
+      firstName:
         type: string
+      lastName:
+        type: string
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Unique identifier of the transaction
+      amount:
+        type: number
+        format: float
+        description: Amount of the transaction
+      type:
+        type: string
+        description: Type of the transaction (credit or debit)
+        enum:
+          - credit
+          - debit
+      accountId:
+        type: string
+        description: The account associated with the transaction
+      date:
+        type: string
+        format: date-time
+        description: The date and time when the transaction occurred
+      description:
+        type: string
+        description: Optional description of the transaction
+      category:
+        type: string
+        description: Category of the transaction
+      note:
+        type: string
+        description: Optional note associated with the transaction  
+  TransactionInput:
+    type: object
+    properties:
+      amount:
+        type: number
+        format: float
+        description: Amount of the transaction
+      type:
+        type: string
+        description: Type of the transaction (credit or debit)
+        enum:
+          - credit
+          - debit
+      accountId:
+        type: string
+        description: The account associated with the transaction
+      description:
+        type: string
+        description: Optional description of the transaction      
+        

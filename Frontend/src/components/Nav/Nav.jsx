@@ -12,15 +12,17 @@ const Nav = () => {
 
   const isAuthenticated = useSelector((state) => state.user?.isAuthenticated);
   const userName = useSelector((state) => state.user.profile?.userName); // Protection contre undefined
-  const token = localStorage.getItem("token");
+  
 
-  // Vérifie l'état de connexion et récupère l'utilisateur si un token est présent
+  // Vérifie l'état de connexion et récupère l'utilisateur depuis Redux
   useEffect(() => {
+    // Si le token est présent dans localStorage et que l'utilisateur n'est pas authentifié, récupérer le profil
+    const token = localStorage.getItem("token");
     if (!isAuthenticated && token) {
       dispatch(getUser(token));
     }
 
-  }, [isAuthenticated, token, dispatch, navigate]);
+  }, [isAuthenticated, dispatch]);
 
   // Gère la déconnexion
   const handleLogout = () => {

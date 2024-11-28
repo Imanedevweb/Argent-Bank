@@ -19,6 +19,7 @@
         "mongoose": "^5.9.21",
         "react-redux": "^9.1.2",
         "swagger-ui-express": "^4.1.4",
+        "sass":"1.81.0",
         "yamljs": "^0.3.0"
     },
     "scripts": {
