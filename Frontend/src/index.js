@@ -8,7 +8,7 @@ import UserPage from './pages/UserPage/UserPage';
 import Footer from './components/Footer/Footer';
 import { Provider } from 'react-redux';
 import store from './Redux/store';
-import PrivateRoute from './Redux/PrivateRoute';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 // import ErrorPage from './pages/ErrorPage/ErrorPage'
 import reportWebVitals from './reportWebVitals';
 import Header from './components/Header/Header';
