@@ -138,7 +138,6 @@ paths:
           description: Invalid Request
         '500':
           description: Internal Server Error
-    
   /transactions/{transactionId}:
     get:
       security:
